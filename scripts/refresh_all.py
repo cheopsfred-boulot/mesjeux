@@ -24,10 +24,7 @@ def main() -> int:
         run([PYTHON, str(ROOT / "scripts" / "download_fdj_archives.py"), "--all"])
 
     run([PYTHON, str(ROOT / "scripts" / "import_fdj_archives.py")])
-
-    run([PYTHON, str(ROOT / "scripts" / "export_csv.py"), "--game", "loto"])
-    run([PYTHON, str(ROOT / "scripts" / "export_csv.py"), "--game", "euromillions"])
-    run([PYTHON, str(ROOT / "scripts" / "export_csv.py"), "--game", "crescendo"])
+    run([PYTHON, str(ROOT / "scripts" / "export_csv.py"), "--all"])
 
     run([PYTHON, str(ROOT / "scripts" / "update_docs.py")])
     print("Refresh completed.")

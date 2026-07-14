@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+from datetime import date as DateType
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
 
-from app.data_store import balanced_loto_grid, compare_lists, game_statistics, latest_record, load_records, search_records
+from app.data_store import balanced_loto_grid, compare_lists, game_snapshot, game_statistics, history_records, latest_record, search_records
+from app.exports import records_to_csv_text
 from app.models import GameName, GridCompareRequest, MediaRegisterRequest, PresignRequest, PresignResponse, StorageStatus
 from app.neon_store import insert_media_asset, list_media_assets
 from app.r2_store import head_object, presign_upload, r2_configuration, r2_enabled
@@ -73,9 +77,32 @@ def get_latest(game: GameName) -> dict[str, object]:
 
 
 @app.get("/games/{game}/history")
-def get_history(game: GameName, limit: int = Query(default=50, ge=1, le=1000)) -> list[dict[str, object]]:
-    records = load_records(game)
-    return records[-limit:]
+def get_history(
+    game: GameName,
+    limit: int = Query(default=50, ge=1, le=1000),
+    offset: int = Query(default=0, ge=0),
+    number: int | None = None,
+    bonus: str | None = None,
+    date_from: DateType | None = None,
+    date_to: DateType | None = None,
+) -> list[dict[str, object]]:
+    return history_records(game, number=number, bonus=bonus, date_from=date_from, date_to=date_to, offset=offset, limit=limit)
+
+
+@app.get("/games/{game}/history.csv")
+def get_history_csv(
+    game: GameName,
+    limit: int = Query(default=1000, ge=1, le=10000),
+    offset: int = Query(default=0, ge=0),
+    number: int | None = None,
+    bonus: str | None = None,
+    date_from: DateType | None = None,
+    date_to: DateType | None = None,
+) -> Response:
+    records = history_records(game, number=number, bonus=bonus, date_from=date_from, date_to=date_to, offset=offset, limit=limit)
+    csv_text = records_to_csv_text(game, records)
+    filename = f"{game}-history.csv"
+    return Response(content=csv_text, media_type="text/csv; charset=utf-8", headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 
 @app.get("/games/{game}/statistics")
@@ -83,9 +110,22 @@ def get_stats(game: GameName) -> dict[str, object]:
     return game_statistics(game)
 
 
+@app.get("/games/{game}/snapshot")
+def get_snapshot(game: GameName) -> dict[str, object]:
+    return game_snapshot(game)
+
+
 @app.get("/games/{game}/search")
-def search_history(game: GameName, number: int | None = None, bonus: str | None = None, limit: int = Query(default=20, ge=1, le=100)) -> list[dict[str, object]]:
-    return search_records(game, number=number, bonus=bonus, limit=limit)
+def search_history(
+    game: GameName,
+    number: int | None = None,
+    bonus: str | None = None,
+    limit: int = Query(default=20, ge=1, le=100),
+    offset: int = Query(default=0, ge=0),
+    date_from: DateType | None = None,
+    date_to: DateType | None = None,
+) -> list[dict[str, object]]:
+    return search_records(game, number=number, bonus=bonus, date_from=date_from, date_to=date_to, offset=offset, limit=limit)
 
 
 @app.post("/compare")

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import date, datetime
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -31,6 +32,63 @@ def load_records(game: GameName) -> list[dict[str, Any]]:
     return payload if isinstance(payload, list) else []
 
 
+def parse_record_date(value: Any) -> date | None:
+    if value is None or isinstance(value, date):
+        return value
+    if not isinstance(value, str):
+        return None
+
+    text = value.strip()
+    if not text:
+        return None
+
+    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d/%m/%y"):
+        try:
+            return datetime.strptime(text, fmt).date()
+        except ValueError:
+            continue
+    return None
+
+
+def filter_records(
+    records: list[dict[str, Any]],
+    *,
+    number: int | None = None,
+    bonus: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
+    offset: int = 0,
+    limit: int | None = None,
+    newest_first: bool = False,
+) -> list[dict[str, Any]]:
+    filtered: list[dict[str, Any]] = []
+    for record in records:
+        record_date = parse_record_date(record.get("date"))
+        if date_from and record_date and record_date < date_from:
+            continue
+        if date_to and record_date and record_date > date_to:
+            continue
+        if number is not None and number not in record.get("numbers", []):
+            continue
+        if bonus is not None and bonus not in {str(item) for item in record.get("bonus", [])}:
+            continue
+        filtered.append(record)
+
+    filtered.sort(
+        key=lambda record: (
+            parse_record_date(record.get("date")) or date.min,
+            str(record.get("draw_id") or ""),
+            int(record.get("draw_slot") or -1),
+        ),
+        reverse=newest_first,
+    )
+    if offset:
+        filtered = filtered[offset:]
+    if limit is not None:
+        filtered = filtered[:limit]
+    return filtered
+
+
 def latest_record(game: GameName) -> dict[str, Any]:
     if neon_enabled():
         record = neon_fetch_latest(game)
@@ -40,23 +98,55 @@ def latest_record(game: GameName) -> dict[str, Any]:
     return records[-1] if records else {}
 
 
-def search_records(game: GameName, number: int | None = None, bonus: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
-    if neon_enabled():
+def search_records(
+    game: GameName,
+    number: int | None = None,
+    bonus: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
+    offset: int = 0,
+    limit: int = 20,
+) -> list[dict[str, Any]]:
+    if neon_enabled() and date_from is None and date_to is None and offset == 0:
         records = neon_fetch_search(game, number=number, bonus=bonus, limit=limit)
         if records:
             return records
-    matches: list[dict[str, Any]] = []
-    for record in load_records(game):
-        numbers = record.get("numbers", [])
-        bonuses = record.get("bonus", [])
-        if number is not None and number not in numbers:
-            continue
-        if bonus is not None and bonus not in {str(item) for item in bonuses}:
-            continue
-        matches.append(record)
-        if len(matches) >= limit:
-            break
-    return matches
+    return filter_records(
+        load_records(game),
+        number=number,
+        bonus=bonus,
+        date_from=date_from,
+        date_to=date_to,
+        offset=offset,
+        limit=limit,
+        newest_first=True,
+    )
+
+
+def history_records(
+    game: GameName,
+    *,
+    number: int | None = None,
+    bonus: str | None = None,
+    date_from: date | None = None,
+    date_to: date | None = None,
+    offset: int = 0,
+    limit: int = 1000,
+) -> list[dict[str, Any]]:
+    if neon_enabled() and number is None and bonus is None and date_from is None and date_to is None:
+        records = neon_fetch_history(game, limit=limit + offset)
+        if records:
+            return records[offset: offset + limit]
+    return filter_records(
+        load_records(game),
+        number=number,
+        bonus=bonus,
+        date_from=date_from,
+        date_to=date_to,
+        offset=offset,
+        limit=limit,
+        newest_first=False,
+    )
 
 
 def compare_lists(
@@ -109,6 +199,25 @@ def game_statistics(game: GameName) -> dict[str, Any]:
         "count": len(records),
         "top_numbers": top_numbers,
         "top_bonus": top_bonus,
+    }
+
+
+def game_snapshot(game: GameName, recent_limit: int = 3) -> dict[str, Any]:
+    records = load_records(game)
+    latest = latest_record(game)
+    stats = game_statistics(game)
+    recent_records = records[-recent_limit:] if recent_limit > 0 else []
+    return {
+        "game": game,
+        "count": stats.get("count", len(records)),
+        "latest": latest,
+        "top_numbers": stats.get("top_numbers", []),
+        "top_bonus": stats.get("top_bonus", []),
+        "recent": recent_records,
+        "sources": {
+            "local_json": bool(records),
+            "neon": neon_enabled(),
+        },
     }
 
 

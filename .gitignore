@@ -7,3 +7,7 @@ __pycache__/
 *.pyc
 node_modules/
 
+
+.vercel
+.wrangler/
+.env*

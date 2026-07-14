@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "fdj-history": {
+      "command": "python",
+      "args": [
+        "C:\\projets\\mesjeux\\mcp\\fdj_mcp_server.py"
+      ]
+    }
+  }
+}

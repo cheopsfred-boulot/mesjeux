@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime, date
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +15,24 @@ def load_rows(game: str) -> list[dict[str, Any]]:
         return []
     payload = json.loads(path.read_text(encoding="utf-8"))
     return payload if isinstance(payload, list) else []
+
+
+def normalize_date_value(value: Any) -> Any:
+    if value is None or isinstance(value, date):
+        return value
+    if not isinstance(value, str):
+        return value
+
+    text = value.strip()
+    if not text:
+        return None
+
+    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d/%m/%y"):
+        try:
+            return datetime.strptime(text, fmt).date()
+        except ValueError:
+            continue
+    return text
 
 
 def sync_game(game: str, rows: list[dict[str, Any]]) -> int:
@@ -40,7 +59,7 @@ def sync_game(game: str, rows: list[dict[str, Any]]) -> int:
                 """,
                 {
                     "game": row.get("game", game),
-                    "date": row.get("date"),
+                    "date": normalize_date_value(row.get("date")),
                     "date_display": row.get("date_display"),
                     "draw_id": row.get("draw_id"),
                     "draw_slot": row.get("draw_slot"),
@@ -58,4 +77,3 @@ def sync_game(game: str, rows: list[dict[str, Any]]) -> int:
             )
             inserted += cur.rowcount or 0
     return inserted
-

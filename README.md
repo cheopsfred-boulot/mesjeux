@@ -9,6 +9,10 @@ la comparaison de grilles et la préparation d'un futur stockage Neon + R2.
 - comparaison grille / tirage
 - statistiques simples
 - règle de grille Loto équilibrée
+- export CSV automatique depuis `data/*.json`
+- serveur MCP local pour l'historique normalisé
+- routes FastAPI filtrables et exportables en CSV
+- snapshot compact par jeu
 - configuration Vercel
 
 ## Endpoints
@@ -18,6 +22,8 @@ la comparaison de grilles et la préparation d'un futur stockage Neon + R2.
 - `GET /games`
 - `GET /games/{game}/latest`
 - `GET /games/{game}/history`
+- `GET /games/{game}/history.csv`
+- `GET /games/{game}/snapshot`
 - `GET /games/{game}/statistics`
 - `GET /games/{game}/search`
 - `POST /compare`
@@ -35,6 +41,29 @@ la comparaison de grilles et la préparation d'un futur stockage Neon + R2.
 - `scripts/apply_sql_migrations.py`
 - `scripts/download_fdj_archives.py`
 - `scripts/refresh_all.py`
+- `scripts/export_csv.py`
+
+## Serveur MCP local
+
+Lancement:
+
+```powershell
+python mcp\fdj_mcp_server.py
+```
+
+Exemple de configuration client: [docs/mcp-local.md](./docs/mcp-local.md)
+
+Outils principaux:
+
+- `list_games`
+- `get_last_result`
+- `get_history`
+- `search_history`
+- `get_statistics`
+- `get_snapshot`
+- `compare_grid_to_result`
+- `generate_balanced_loto_grid`
+- `export_csv`
 
 ## Schéma SQL
 
