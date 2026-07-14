@@ -39,3 +39,32 @@ class StorageStatus(BaseModel):
     local_json: bool
     neon: bool
     r2: bool
+
+
+class PresignRequest(BaseModel):
+    kind: str
+    filename: str
+    content_type: str | None = None
+    game: GameName | None = None
+    expires_in: int = 3600
+
+
+class PresignResponse(BaseModel):
+    bucket: str
+    object_key: str
+    upload_url: str
+    download_url: str
+    content_type: str
+    expires_in: int
+
+
+class MediaRegisterRequest(BaseModel):
+    kind: str
+    file_name: str
+    object_key: str
+    bucket: str
+    game: GameName | None = None
+    content_type: str | None = None
+    size_bytes: int | None = None
+    source_url: str | None = None
+    metadata: dict[str, Any] = Field(default_factory=dict)

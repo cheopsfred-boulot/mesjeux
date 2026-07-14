@@ -6,6 +6,11 @@ from pathlib import Path
 from typing import Any
 
 from app.models import GameName
+from app.neon_store import fetch_history as neon_fetch_history
+from app.neon_store import fetch_latest as neon_fetch_latest
+from app.neon_store import fetch_search as neon_fetch_search
+from app.neon_store import fetch_statistics as neon_fetch_statistics
+from app.neon_store import neon_enabled
 from app.settings import DATA_DIR
 
 
@@ -15,6 +20,10 @@ def _path_for_game(game: GameName) -> Path:
 
 @lru_cache(maxsize=8)
 def load_records(game: GameName) -> list[dict[str, Any]]:
+    if neon_enabled():
+        records = neon_fetch_history(game, limit=100000)
+        if records:
+            return records
     path = _path_for_game(game)
     if not path.exists():
         return []
@@ -23,11 +32,19 @@ def load_records(game: GameName) -> list[dict[str, Any]]:
 
 
 def latest_record(game: GameName) -> dict[str, Any]:
+    if neon_enabled():
+        record = neon_fetch_latest(game)
+        if record:
+            return record
     records = load_records(game)
     return records[-1] if records else {}
 
 
 def search_records(game: GameName, number: int | None = None, bonus: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
+    if neon_enabled():
+        records = neon_fetch_search(game, number=number, bonus=bonus, limit=limit)
+        if records:
+            return records
     matches: list[dict[str, Any]] = []
     for record in load_records(game):
         numbers = record.get("numbers", [])
@@ -67,6 +84,10 @@ def compare_lists(
 
 
 def game_statistics(game: GameName) -> dict[str, Any]:
+    if neon_enabled():
+        stats = neon_fetch_statistics(game)
+        if stats.get("count", 0):
+            return stats
     records = load_records(game)
     if not records:
         return {"game": game, "count": 0, "top_numbers": []}
@@ -98,4 +119,3 @@ def balanced_loto_grid() -> dict[str, Any]:
         "chance": 5,
         "warning": "Heuristic only; not a prediction.",
     }
-

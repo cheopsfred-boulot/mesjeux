@@ -29,3 +29,17 @@ def has_r2() -> bool:
         ]
     )
 
+
+def neon_dsn() -> str | None:
+    return env("NEON_DATABASE_URL")
+
+
+def r2_bucket() -> str | None:
+    return env("R2_BUCKET")
+
+
+def r2_endpoint() -> str | None:
+    account_id = env("R2_ACCOUNT_ID")
+    if not account_id:
+        return None
+    return f"https://{account_id}.r2.cloudflarestorage.com"

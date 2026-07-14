@@ -4,8 +4,12 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.data_store import balanced_loto_grid, compare_lists, game_statistics, latest_record, load_records, search_records
-from app.models import GridCompareRequest, GameName, StorageStatus
+from app.models import GameName, GridCompareRequest, MediaRegisterRequest, PresignRequest, PresignResponse, StorageStatus
+from app.neon_store import insert_media_asset, list_media_assets
+from app.r2_store import head_object, presign_upload, r2_enabled
 from app.settings import DATA_DIR, has_neon, has_r2
+from app.neon_store import neon_enabled
+from app.sync_service import load_rows, sync_game
 
 
 app = FastAPI(
@@ -48,6 +52,16 @@ def storage_status() -> StorageStatus:
     return StorageStatus(local_json=DATA_DIR.exists(), neon=has_neon(), r2=has_r2())
 
 
+@app.get("/storage/r2")
+def storage_r2_status() -> dict[str, object]:
+    return {"r2": r2_enabled(), "configured": has_r2()}
+
+
+@app.get("/storage/neon")
+def storage_neon_status() -> dict[str, object]:
+    return {"neon": neon_enabled(), "configured": has_neon()}
+
+
 @app.get("/games")
 def games() -> dict[str, list[str]]:
     return {"games": ["loto", "euromillions", "crescendo"]}
@@ -77,6 +91,48 @@ def search_history(game: GameName, number: int | None = None, bonus: str | None 
 @app.post("/compare")
 def compare_grid(payload: GridCompareRequest) -> dict[str, object]:
     return compare_lists(payload.played, payload.draw, payload.chance_played, payload.chance_drawn)
+
+
+@app.post("/media/presign", response_model=PresignResponse)
+def media_presign(payload: PresignRequest) -> PresignResponse:
+    prefix = payload.game or "general"
+    return PresignResponse(**presign_upload(prefix=prefix, filename=payload.filename, content_type=payload.content_type, expires_in=payload.expires_in))
+
+
+@app.get("/media/head")
+def media_head(object_key: str) -> dict[str, object]:
+    try:
+        return head_object(object_key)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/media/register")
+def media_register(payload: MediaRegisterRequest) -> dict[str, object]:
+    if not neon_enabled():
+        raise HTTPException(status_code=400, detail="Neon is not configured")
+    record = insert_media_asset(payload.model_dump())
+    if not record:
+        raise HTTPException(status_code=500, detail="Unable to register media asset")
+    return record
+
+
+@app.get("/media")
+def media_list(game: GameName | None = None, kind: str | None = None, limit: int = Query(default=50, ge=1, le=200)) -> list[dict[str, object]]:
+    if not neon_enabled():
+        return []
+    return list_media_assets(game=game, kind=kind, limit=limit)
+
+
+@app.post("/admin/neon/sync")
+def admin_sync_neon(game: GameName | None = None) -> dict[str, object]:
+    if not neon_enabled():
+        raise HTTPException(status_code=400, detail="Neon is not configured")
+    games = [game] if game else ["loto", "euromillions", "crescendo"]
+    total = 0
+    for item in games:
+        total += sync_game(item, load_rows(item))
+    return {"synced": total, "games": games}
 
 
 @app.get("/strategies/loto/balanced")
@@ -112,4 +168,3 @@ def game_summary(game: GameName) -> dict[str, object]:
         "latest": records[-1],
         "statistics": game_statistics(game),
     }
-

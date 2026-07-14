@@ -21,7 +21,35 @@ la comparaison de grilles et la préparation d'un futur stockage Neon + R2.
 - `GET /games/{game}/statistics`
 - `GET /games/{game}/search`
 - `POST /compare`
+- `POST /media/presign`
+- `POST /media/register`
+- `GET /media`
+- `GET /media/head`
+- `POST /admin/neon/sync`
 - `GET /strategies/loto/balanced`
+
+## Scripts utiles
+
+- `scripts/import_fdj_archives.py`
+- `scripts/sync_neon.py`
+- `scripts/apply_sql_migrations.py`
+- `scripts/download_fdj_archives.py`
+- `scripts/refresh_all.py`
+
+## Schéma SQL
+
+- `sql/001_init.sql`
+- `sql/002_views.sql`
+- `sql/003_sync_helpers.sql`
+- `sql/004_media.sql`
+- `sql/005_unique_constraints.sql`
+
+## Flux média R2
+
+1. appeler `POST /media/presign`
+2. envoyer le fichier vers l’URL signée
+3. appeler `POST /media/register` pour tracer l’asset en base
+4. consulter `GET /media`
 
 ## Variables d'environnement prévues
 
@@ -42,4 +70,3 @@ uvicorn app.main:app --reload
 
 Le dépôt contient `vercel.json` et `api/index.py`.
 Une fois poussé sur GitHub, il peut être importé dans Vercel comme projet Python.
-
