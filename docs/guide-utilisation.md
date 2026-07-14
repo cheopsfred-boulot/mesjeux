@@ -118,6 +118,7 @@ Le principe recommande est simple:
 
 - le cron lance `scripts\refresh_all.py`
 - l'API et le MCP lisent ensuite les fichiers normalises et la base Neon
+- le script PowerShell charge automatiquement `.env.local` puis `.env` si ces fichiers existent
 
 ### Option Windows Task Scheduler
 
@@ -165,8 +166,13 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scri
 
 - rafraichit les archives et le JSON normalise
 - met a jour Neon
-- regenere les CSV
+- regenere les CSV via `refresh_all.py`
 - affiche un snapshot compact du jeu cible pour verification
+- charge automatiquement `.env.local` puis `.env` si ces fichiers existent
+
+Fichier modele d'environnement local:
+
+- [C:\projets\mesjeux\.env.local.example](C:\projets\mesjeux\.env.local.example)
 
 ### Option cron Linux
 
