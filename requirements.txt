@@ -1,0 +1,7 @@
+fastapi>=0.115
+uvicorn>=0.30
+pydantic>=2.11
+psycopg[binary]>=3.2
+python-multipart>=0.0.9
+mcp>=1.28.1
+boto3>=1.40

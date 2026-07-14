@@ -1,0 +1,182 @@
+[
+  {
+    "game": "loto",
+    "download_name": "loto_201911",
+    "title": "Historique Loto de novembre 2019 à juillet 2026",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afp6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\loto_201911.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\loto_201911",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "loto_201902",
+    "title": "Historique Loto de février 2019 à novembre 2019",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afo6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\loto_201902.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\loto_201902",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "loto2017",
+    "title": "Historique Loto de mars 2017 à février 2019",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afn6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\loto2017.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\loto2017",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "nouveau_loto",
+    "title": "Historique Loto de octobre 2008 à mars 2017",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afm6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\nouveau_loto.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\nouveau_loto",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "loto",
+    "title": "Historique Loto de mai 1976 à octobre 2008",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afl6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\loto.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\loto",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "grandloto_201912",
+    "title": "Historique Grand Loto de décembre 2019 à décembre 2025",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afg6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\grandloto_201912.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\grandloto_201912",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "lotonoel2017",
+    "title": "Historique Grand Loto de décembre 2017 à décembre 2018",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66aff6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\lotonoel2017.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\lotonoel2017",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "superloto_201907",
+    "title": "Historique Super Loto de juillet 2019 à avril 2026",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afk6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\superloto_201907.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\superloto_201907",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "superloto2017",
+    "title": "Historique Super Loto de octobre 2017 à septembre 2018",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afj6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\superloto2017.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\superloto2017",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "nouveau_superloto",
+    "title": "Historique Super Loto de février 2009 à janvier 2017",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afi6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\nouveau_superloto.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\nouveau_superloto",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "loto",
+    "download_name": "sloto",
+    "title": "Historique Super Loto de mai 1996 à juin 2008",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afh6",
+    "zip_path": "C:\\projets\\jeux\\archives\\loto\\sloto.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\loto\\sloto",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "euromillions",
+    "download_name": "euromillions_202002",
+    "title": "Historique EuroMillions - My Million de février 2020 à juillet 2026",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afe6",
+    "zip_path": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_202002.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_202002",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "euromillions",
+    "download_name": "euromillions_201902",
+    "title": "Historique EuroMillions - My Million de mars 2019 à février 2020",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afd6",
+    "zip_path": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_201902.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_201902",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "euromillions",
+    "download_name": "euromillions_4",
+    "title": "Historique EuroMillions - My Million de septembre 2016 à février 2019",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afc6",
+    "zip_path": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_4.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_4",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "euromillions",
+    "download_name": "euromillions_3",
+    "title": "Historique EuroMillions - My Million de février 2014 à septembre 2016",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afb6",
+    "zip_path": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_3.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_3",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "euromillions",
+    "download_name": "euromillions_2",
+    "title": "Historique EuroMillions - My Million de mai 2011 à février 2014",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afa9",
+    "zip_path": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_2.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\euromillions\\euromillions_2",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "euromillions",
+    "download_name": "euromillions",
+    "title": "Historique EuroMillions - My Million de février 2004 à mai 2011",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afa8",
+    "zip_path": "C:\\projets\\jeux\\archives\\euromillions\\euromillions.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\euromillions\\euromillions",
+    "status": "exists",
+    "content_type": "application/zip"
+  },
+  {
+    "game": "crescendo",
+    "download_name": "crescendo_202511",
+    "title": "Historique Crescendo de novembre 2025 à juillet 2026",
+    "href": "https://www.sto.api.fdj.fr/anonymous/service-draw-info/v3/documentations/1a2b3c4d-9876-4562-b3fc-2c963f66afa7",
+    "zip_path": "C:\\projets\\jeux\\archives\\crescendo\\crescendo_202511.zip",
+    "extracted_to": "C:\\projets\\jeux\\archives\\crescendo\\crescendo_202511",
+    "status": "exists",
+    "content_type": "application/zip"
+  }
+]
