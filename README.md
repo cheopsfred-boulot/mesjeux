@@ -42,6 +42,7 @@ la comparaison de grilles et la préparation d'un futur stockage Neon + R2.
 - `scripts/download_fdj_archives.py`
 - `scripts/refresh_all.py`
 - `scripts/export_csv.py`
+- `scripts/cron_refresh.ps1`
 
 ## Serveur MCP local
 
@@ -102,3 +103,10 @@ Une fois poussé sur GitHub, il peut être importé dans Vercel comme projet Pyt
 
 Guide détaillé : [docs/deploiement-vercel.md](./docs/deploiement-vercel.md)
 Guide R2 : [docs/r2-cloudflare.md](./docs/r2-cloudflare.md)
+Guide d'utilisation : [docs/guide-utilisation.md](./docs/guide-utilisation.md)
+
+Rythme d'usage recommandé:
+
+- Loto: lundi, mercredi, samedi
+- EuroMillions / My Million: mardi, vendredi
+- Crescendo: samedi
