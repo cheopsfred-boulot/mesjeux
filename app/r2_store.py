@@ -8,7 +8,7 @@ from uuid import uuid4
 import boto3
 from botocore.client import Config
 
-from app.settings import has_r2, r2_bucket, r2_endpoint, env
+from app.settings import has_r2, r2_api_url, r2_bucket, r2_endpoint, env
 
 
 @lru_cache(maxsize=1)
@@ -27,6 +27,15 @@ def get_client():
 
 def r2_enabled() -> bool:
     return get_client() is not None
+
+
+def r2_configuration() -> dict[str, Any]:
+    return {
+        "configured": has_r2(),
+        "bucket": r2_bucket(),
+        "endpoint": r2_endpoint(),
+        "api_url": r2_api_url(),
+    }
 
 
 def build_object_key(prefix: str, filename: str) -> str:
@@ -77,4 +86,3 @@ def head_object(object_key: str) -> dict[str, Any]:
         "etag": response.get("ETag"),
         "last_modified": response.get("LastModified").isoformat() if response.get("LastModified") else None,
     }
-

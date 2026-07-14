@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.data_store import balanced_loto_grid, compare_lists, game_statistics, latest_record, load_records, search_records
 from app.models import GameName, GridCompareRequest, MediaRegisterRequest, PresignRequest, PresignResponse, StorageStatus
 from app.neon_store import insert_media_asset, list_media_assets
-from app.r2_store import head_object, presign_upload, r2_enabled
+from app.r2_store import head_object, presign_upload, r2_configuration, r2_enabled
 from app.settings import DATA_DIR, has_neon, has_r2
 from app.neon_store import neon_enabled
 from app.sync_service import load_rows, sync_game
@@ -54,7 +54,7 @@ def storage_status() -> StorageStatus:
 
 @app.get("/storage/r2")
 def storage_r2_status() -> dict[str, object]:
-    return {"r2": r2_enabled(), "configured": has_r2()}
+    return {"r2": r2_enabled(), **r2_configuration()}
 
 
 @app.get("/storage/neon")

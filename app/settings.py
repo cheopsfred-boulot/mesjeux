@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,12 +23,10 @@ def has_r2() -> bool:
     return all(
         env(name)
         for name in [
-            "R2_ACCOUNT_ID",
             "R2_ACCESS_KEY_ID",
             "R2_SECRET_ACCESS_KEY",
-            "R2_BUCKET",
         ]
-    )
+    ) and bool(r2_bucket())
 
 
 def neon_dsn() -> str | None:
@@ -35,11 +34,27 @@ def neon_dsn() -> str | None:
 
 
 def r2_bucket() -> str | None:
-    return env("R2_BUCKET")
+    bucket = env("R2_BUCKET")
+    if bucket:
+        return bucket
+    api_url = env("R2_S3_ENDPOINT") or env("R2_S3_URL")
+    if api_url:
+        path = urlsplit(api_url).path.strip("/")
+        if path:
+            return path.split("/")[0]
+    return None
 
 
 def r2_endpoint() -> str | None:
+    api_url = env("R2_S3_ENDPOINT") or env("R2_S3_URL")
+    if api_url:
+        parsed = urlsplit(api_url)
+        return f"{parsed.scheme}://{parsed.netloc}" if parsed.scheme and parsed.netloc else None
     account_id = env("R2_ACCOUNT_ID")
     if not account_id:
         return None
     return f"https://{account_id}.r2.cloudflarestorage.com"
+
+
+def r2_api_url() -> str | None:
+    return env("R2_S3_ENDPOINT") or env("R2_S3_URL")

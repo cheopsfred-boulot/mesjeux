@@ -70,3 +70,6 @@ uvicorn app.main:app --reload
 
 Le dépôt contient `vercel.json` et `api/index.py`.
 Une fois poussé sur GitHub, il peut être importé dans Vercel comme projet Python.
+
+Guide détaillé : [docs/deploiement-vercel.md](./docs/deploiement-vercel.md)
+Guide R2 : [docs/r2-cloudflare.md](./docs/r2-cloudflare.md)
