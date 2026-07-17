@@ -119,6 +119,7 @@ Le principe recommande est simple:
 - le cron lance `scripts\refresh_all.py`
 - l'API et le MCP lisent ensuite les fichiers normalises et la base Neon
 - le script PowerShell charge automatiquement `.env.local` puis `.env` si ces fichiers existent
+- tu peux forcer l'interpreteur avec `PYTHON_EXE=C:\projets\python313\python.exe`
 
 ### Option Windows Task Scheduler
 

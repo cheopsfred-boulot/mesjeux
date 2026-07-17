@@ -1,5 +1,4 @@
 param(
-  [ValidateSet("loto", "euromillions", "crescendo")]
   [string]$FocusGame = "loto"
 )
 
@@ -7,6 +6,48 @@ $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 $env:PYTHONPATH = "."
+
+function Resolve-Python {
+  if ($env:PYTHON_EXE -and (Test-Path -LiteralPath $env:PYTHON_EXE)) {
+    return $env:PYTHON_EXE
+  }
+
+  $fallback = "C:\projets\python313\python.exe"
+  if (Test-Path -LiteralPath $fallback) {
+    return $fallback
+  }
+
+  $cmd = Get-Command python -ErrorAction SilentlyContinue
+  if ($cmd -and $cmd.Source) {
+    return $cmd.Source
+  }
+
+  $py = Get-Command py -ErrorAction SilentlyContinue
+  if ($py -and $py.Source) {
+    return $py.Source
+  }
+
+  throw "Unable to locate a Python executable. Set PYTHON_EXE in .env.local."
+}
+
+function Resolve-FocusGame {
+  param(
+    [Parameter(Mandatory = $true)]
+    [string]$Value
+  )
+
+  switch ($Value.ToLowerInvariant()) {
+    "loto" { return "loto" }
+    "euromillion" { return "euromillions" }
+    "euromillions" { return "euromillions" }
+    "crescendo" { return "crescendo" }
+    "crecndo" { return "crescendo" }
+    "cresendo" { return "crescendo" }
+    default {
+      throw "Unsupported FocusGame '$Value'. Use loto, euromillions, or crescendo."
+    }
+  }
+}
 
 function Import-EnvFile {
   param(
@@ -33,6 +74,8 @@ function Import-EnvFile {
   }
 }
 
+$FocusGame = Resolve-FocusGame -Value $FocusGame
+
 Import-EnvFile -Path (Join-Path $root ".env.local")
 Import-EnvFile -Path (Join-Path $root ".env")
 
@@ -42,9 +85,10 @@ function Invoke-PythonScript {
     [string[]]$Args
   )
 
-  & python @Args
+  $pythonExe = Resolve-Python
+  & $pythonExe @Args
   if ($LASTEXITCODE -ne 0) {
-    throw "Python command failed: python $($Args -join ' ')"
+    throw "Python command failed: $pythonExe $($Args -join ' ')"
   }
 }
 
