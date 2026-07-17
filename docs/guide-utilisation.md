@@ -132,6 +132,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scri
 ### Trois taches Windows pretes a copier
 
 Tu peux creer 3 taches distinctes dans le Planificateur de taches Windows.
+Les noms acceptes par le script sont:
+
+- `loto`
+- `euromillions`
+- `crescendo`
+
+Alias toleres:
+
+- `euromillion` -> `euromillions`
+- `crecndo` -> `crescendo`
+- `cresendo` -> `crescendo`
 
 #### Tache 1: Loto
 
@@ -170,10 +181,26 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scri
 - regenere les CSV via `refresh_all.py`
 - affiche un snapshot compact du jeu cible pour verification
 - charge automatiquement `.env.local` puis `.env` si ces fichiers existent
+- utilise `PYTHON_EXE` si tu veux fixer l'interpreteur Python
 
 Fichier modele d'environnement local:
 
 - [C:\projets\mesjeux\.env.local.example](C:\projets\mesjeux\.env.local.example)
+
+### Test manuel rapide
+
+Commande simple pour tester la chaine complete:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scripts\cron_refresh.ps1" -FocusGame loto
+```
+
+Test des alias:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scripts\cron_refresh.ps1" -FocusGame euromillion
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scripts\cron_refresh.ps1" -FocusGame crecndo
+```
 
 ### Option cron Linux
 
