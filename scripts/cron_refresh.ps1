@@ -67,7 +67,13 @@ function Import-EnvFile {
 
     $parts = $line -split "=", 2
     $name = $parts[0].Trim()
-    $value = $parts[1]
+    $value = $parts[1].Trim()
+    if ($value.Length -ge 2 -and $value.StartsWith('"') -and $value.EndsWith('"')) {
+      $value = $value.Substring(1, $value.Length - 2)
+    }
+    if ($value.Length -ge 2 -and $value.StartsWith("'") -and $value.EndsWith("'")) {
+      $value = $value.Substring(1, $value.Length - 2)
+    }
     if ($name) {
       Set-Item -Path "Env:$name" -Value $value
     }
@@ -96,5 +102,5 @@ Invoke-PythonScript -Args @("scripts\refresh_all.py")
 Invoke-PythonScript -Args @("scripts\sync_neon.py")
 Invoke-PythonScript -Args @(
   "-c",
-  "import json, sys; sys.path.insert(0, r'C:\projets\mesjeux'); from app.data_store import game_snapshot; print(json.dumps(game_snapshot('$FocusGame'), ensure_ascii=False))"
+  "import json, sys; sys.path.insert(0, r'C:\projets\mesjeux'); from app.data_store import game_snapshot; print(json.dumps(game_snapshot('$FocusGame'), ensure_ascii=False, default=str))"
 )
