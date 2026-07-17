@@ -32,6 +32,16 @@ python scripts\refresh_all.py
 python scripts\sync_neon.py
 ```
 
+### Interrogation Neon
+
+```powershell
+curl http://127.0.0.1:8000/storage/neon
+curl http://127.0.0.1:8000/games/loto/snapshot
+curl "http://127.0.0.1:8000/games/loto/history?limit=5"
+curl "http://127.0.0.1:8000/games/loto/statistics"
+curl -X POST http://127.0.0.1:8000/admin/neon/sync
+```
+
 ### Export CSV
 
 ```powershell
@@ -67,5 +77,5 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scri
 - Ne jamais presenter les grilles comme des predictions certaines.
 - Utiliser `snapshot` pour un resume rapide.
 - Utiliser `history` pour le detail.
+- Utiliser `/storage/neon` et `/admin/neon/sync` pour verifier/synchroniser Neon.
 - Utiliser `compare_grid_to_result` pour comparer une grille a un tirage.
-

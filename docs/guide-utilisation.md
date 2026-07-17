@@ -112,12 +112,41 @@ Si tu veux aussi retoucher la base Neon ensuite:
 python scripts\sync_neon.py
 ```
 
+### Interroger Neon
+
+Quand Neon est configuré, les lectures passent d'abord par la base puis retombent sur les fichiers locaux si besoin.
+
+Vérifications utiles:
+
+```powershell
+curl http://127.0.0.1:8000/storage/neon
+curl http://127.0.0.1:8000/games/loto/snapshot
+curl "http://127.0.0.1:8000/games/loto/history?limit=5"
+curl "http://127.0.0.1:8000/games/loto/statistics"
+```
+
+Synchronisation manuelle Neon:
+
+```powershell
+curl -X POST http://127.0.0.1:8000/admin/neon/sync
+```
+
+Quand Neon est actif, les bons endpoints a retenir sont:
+
+- `GET /storage/neon`
+- `GET /games/{game}/snapshot`
+- `GET /games/{game}/history`
+- `GET /games/{game}/statistics`
+- `GET /games/{game}/search`
+- `POST /admin/neon/sync`
+
 ## 5. Cron de mise a jour
 
 Le principe recommande est simple:
 
 - le cron lance `scripts\refresh_all.py`
 - l'API et le MCP lisent ensuite les fichiers normalises et la base Neon
+- l'API lit Neon en premier, puis retombe sur les fichiers locaux si Neon ne repond pas
 - le script PowerShell charge automatiquement `.env.local` puis `.env` si ces fichiers existent
 - tu peux forcer l'interpreteur avec `PYTHON_EXE=C:\projets\python313\python.exe`
 
