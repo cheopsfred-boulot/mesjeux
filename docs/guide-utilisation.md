@@ -186,6 +186,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\projets\mesjeux\scri
 Fichier modele d'environnement local:
 
 - [C:\projets\mesjeux\.env.local.example](C:\projets\mesjeux\.env.local.example)
+- Fiche rapide: [C:\projets\mesjeux\docs\fiche-rapide.md](C:\projets\mesjeux\docs\fiche-rapide.md)
 
 ### Test manuel rapide
 
