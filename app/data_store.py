@@ -145,7 +145,7 @@ def history_records(
         date_to=date_to,
         offset=offset,
         limit=limit,
-        newest_first=False,
+        newest_first=True,
     )
 
 

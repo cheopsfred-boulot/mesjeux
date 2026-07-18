@@ -62,7 +62,7 @@ def fetch_history(game: str, limit: int = 50) -> list[dict[str, Any]]:
                    my_million, jackpot, raw
             FROM fdj_draws
             WHERE game = %s
-            ORDER BY date ASC NULLS LAST, draw_id ASC NULLS LAST
+            ORDER BY date DESC NULLS LAST, draw_id DESC NULLS LAST
             LIMIT %s
             """,
             (game, limit),
